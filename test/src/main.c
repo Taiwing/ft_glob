@@ -1,6 +1,5 @@
 #include "libft.h"
 #include "c_colors.h"
-#include "ft_fnmatch.h"
 
 #include <fnmatch.h>
 #include <glob.h>
@@ -11,7 +10,7 @@
 void	test_glob(const char *pattern)
 {
 	glob_t	g = {0};
-	if (!glob(pattern, GLOB_MARK, NULL, &g))
+	if (!glob(pattern, GLOB_MARK | GLOB_BRACE, NULL, &g))
 		ft_printf(C_GREEN"OK: "C_RESET"%*t %s\n", g.gl_pathc, g.gl_pathv);
 	else
 		ft_putstr(C_RED"KO\n"C_RESET);
@@ -20,17 +19,11 @@ void	test_glob(const char *pattern)
 
 void	test_fnmatch(const char *pattern, const char *name)
 {
-	int	orig;
-	int	mine;
-
 	ft_printf("'%s' -> ", name);
-
-	orig = fnmatch(pattern, name, FNM_PATHNAME);
-	mine = ft_fnmatch(pattern, name, FNM_PATHNAME);
-	if (orig == mine)
-		ft_printf(C_GREEN"OK: %d\n"C_RESET, orig);
+	if (!fnmatch(pattern, name, FNM_PATHNAME))
+		ft_putstr(C_GREEN"OK\n"C_RESET);
 	else
-		ft_printf(C_RED"KO: orig = %d, mine = %d\n"C_RESET, orig, mine);
+		ft_putstr(C_RED"KO\n"C_RESET);
 }
 
 int main(int argc, char **argv)
@@ -73,6 +66,7 @@ int main(int argc, char **argv)
 	if (!*argv)
 	{
 		ft_dprintf(2, "error: no pattern provided\n");
+		ft_dprintf(2, "usage: %s [-f string ...] [patterns ...]\n");
 		return (EXIT_FAILURE);
 	}
 	while (*argv)
