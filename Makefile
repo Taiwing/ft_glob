@@ -5,7 +5,7 @@ CC			=	gcc
 CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
-SUB1D		=	libft/
+SUB1D		=	libft
 HFLAGS		=	-I $(HDIR) -I $(SUB1D)/$(HDIR)
 LIBS		=	$(SUB1D)/libft.a
 NAME		=	fnmatchtest
@@ -43,7 +43,7 @@ match_star.o: ft_fnmatch_internal.h libft.h
 ft_fnmatch.o: ft_fnmatch.h ft_fnmatch_internal.h
 g_char_classes.o: libft.h g_char_classes.h
 match_brack.o: libft.h g_char_classes.h ft_fnmatch_internal.h
-main.o: libft.h c_colors.h ft_fnmatch.h
+main.o: c_colors.h ft_fnmatch.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@
