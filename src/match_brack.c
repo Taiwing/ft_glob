@@ -83,7 +83,7 @@ int		match_brack(const char **pattern, const char **string,
 			match = *ptr++ == **string;
 		}
 	}
-	*pattern = *ptr && *ptr != ']' ? find_end(ptr, &flags) : ptr;
+	*pattern = find_end(ptr, &flags);
 	*string = **string ? *string + 1 : *string;
 	return (not ? !match : match);
 }

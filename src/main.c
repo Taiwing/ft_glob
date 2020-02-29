@@ -26,7 +26,7 @@ void	test_fnmatch(const char *pattern, const char *name)
 	ft_printf("'%s' -> ", name);
 
 	orig = fnmatch(pattern, name, FNM_PATHNAME);
-	mine = ft_fnmatch(pattern, name, FNM_PATHNAME);
+	mine = ft_fnmatch(pattern, name, FT_FNM_PATHNAME);
 	if (orig == mine)
 		ft_printf(C_GREEN"OK: %d\n"C_RESET, orig);
 	else
