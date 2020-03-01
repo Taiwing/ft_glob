@@ -12,21 +12,27 @@ NAME		=	fnmatchtest
 
 ############################## SOURCES #########################################
 
-SRCC			=	match_star.c\
-					ft_fnmatch.c\
+FT_FNMATCHDIR	=	ft_fnmatch
+
+SRCC			=	test_fnmatch.c\
+					main.c\
+
+FT_FNMATCHC		=	ft_fnmatch.c\
 					g_char_classes.c\
 					match_brack.c\
+					match.c\
 					char_class_functions_2.c\
 					char_class_functions_3.c\
 					char_class_functions_1.c\
-					main.c\
 
 ODIR			=	obj
-OBJ				=	$(patsubst %.c,%.o,$(SRCC))
+OBJ				=	$(patsubst %.c,%.o,$(FT_FNMATCHC))\
+					$(patsubst %.c,%.o,$(SRCC))\
 
 vpath			%.o	$(ODIR)
 vpath			%.h	$(HDIR)
 vpath			%.h	$(SUB1D)/$(HDIR)
+vpath			%.c	$(SRCDIR)/$(FT_FNMATCHDIR)
 vpath			%.c	$(SRCDIR)
 
 ############################## BUILD ###########################################
@@ -39,11 +45,11 @@ $(NAME): $(SUB1D)/libft.a $(ODIR) $(OBJ)
 $(SUB1D)/libft.a:
 	make -C $(SUB1D)
 
-match_star.o: ft_fnmatch_internal.h libft.h
 ft_fnmatch.o: ft_fnmatch.h ft_fnmatch_internal.h
 g_char_classes.o: libft.h g_char_classes.h
 match_brack.o: libft.h g_char_classes.h ft_fnmatch_internal.h
-main.o: c_colors.h ft_fnmatch.h
+match.o: libft.h ft_fnmatch.h ft_fnmatch_internal.h
+test_fnmatch.o: c_colors.h ft_fnmatch.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@

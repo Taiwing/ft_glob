@@ -13,9 +13,19 @@
 # define GLOB_SPEC_CHARS	"\\?[*"
 
 
-int	set_flags(char pattern, char string, int flags);
-int	match_star(const char **pattern, const char **string, int flags);
-int	match_brack(const char **pattern, const char **string, int flags);
-int	ft_fnmatch_internal(const char *pattern, const char *string, int flags);
+typedef struct	s_flags
+{
+	int	cur;
+	int	next;
+}		t_flags;
+
+int	set_flags(char pattern, char string, t_flags *flags);
+int	match_star(const char **pattern, const char **string, t_flags *flags);
+int	explicit_match(char string, t_flags *flags);
+int	match_qmark(const char **pattern, const char **string, t_flags *flags);
+int	match_reg(const char **pattern, const char **string);
+int	match_brack(const char **pattern, const char **string, t_flags *flags);
+int	ft_fnmatch_internal(const char *pattern, const char *string,
+		t_flags flags);
 
 #endif
