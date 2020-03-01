@@ -42,7 +42,7 @@ int		ft_fnmatch_internal(const char *pattern, const char *string,
 	while (*pattern && match)
 	{
 		if (set_flags(*pattern, *string, &flags) & FT_IFNM_SKIP)
-			++pattern;
+			match = *++pattern ? match : 0;
 		else if ((flags.cur & FT_IFNM_FORCE_REG))
 			match = match_reg(&pattern, &string);
 		else if (*pattern == '?')
