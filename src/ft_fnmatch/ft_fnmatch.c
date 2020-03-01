@@ -39,7 +39,7 @@ int		ft_fnmatch_internal(const char *pattern, const char *string,
 	int					match;
 
 	match = 1;
-	while (*pattern && match)
+	while (*pattern && match > 0)
 	{
 		if (set_flags(*pattern, *string, &flags) & FT_IFNM_SKIP)
 			match = *++pattern ? match : 0;
@@ -54,6 +54,8 @@ int		ft_fnmatch_internal(const char *pattern, const char *string,
 		else
 			match = match_reg(&pattern, &string);
 	}
+	if (match < 0)
+		return (match);
 	return (*pattern || *string || !match);
 }
 
@@ -64,5 +66,5 @@ int		ft_fnmatch(const char *pattern, const char *string, int flags)
 	f.next = 0;
 	f.cur = flags;
 	set_flags(0, '/', &f);
-	return (ft_fnmatch_internal(pattern, string, f));
+	return (!!ft_fnmatch_internal(pattern, string, f));
 }

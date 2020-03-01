@@ -35,13 +35,17 @@ int		match_star(const char **pattern, const char **string,
 {
 	int		match;
 
+	match = 1;
 	while ((*pattern)[1] == '*')
 		++(*pattern);
 	if (explicit_match(**string, flags))
 		return (*++(*pattern) && match_reg(pattern, string));
-	match = (**string && !ft_fnmatch_internal(*pattern, *string + 1, *flags))
-		|| !ft_fnmatch_internal(*pattern + 1, *string, *flags);
+	match = ft_fnmatch_internal(*pattern + 1, *string, *flags);
+	if (match > 0 && **string)
+		match = ft_fnmatch_internal(*pattern, *string + 1, *flags);
+	if (match > 0 && !**string)
+		match = -1;
 	*string = ft_strchr(*string, 0);
 	*pattern = ft_strchr(*pattern, 0);
-	return (match);
+	return (match < 0 ? match : !match);
 }

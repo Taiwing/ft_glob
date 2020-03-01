@@ -577,7 +577,22 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"aaaabbbb",
 		NULL
 	},
-	/*
+	{
+		"a*b*c*d*e*f*g*h*i*j*k*l*m*",
+		"abcdefghijklm",
+		"aabbccddeeffgghhiijjkkllmm",
+		"aaabbbcccdddeeefffggghhhiiijjjkkklllmmm",
+		"aaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmm",
+		NULL
+	},
+	{
+		"a*b*c*d*e*f*g*h*i*j*k*l*m*n*",
+		"abcdefghijklm",
+		"aabbccddeeffgghhiijjkkllmm",
+		"aaabbbcccdddeeefffggghhhiiijjjkkklllmmm",
+		"aaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmm",
+		NULL
+	},
 	{
 		"a*b*c*d*e*f*g*h*i*j*k*l*m*n",
 		"abcdefghijklm",
@@ -592,7 +607,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"nnnnooooppppqqqqrrrrssssttttuuuuvvvvwwwwxxxxyyyy",
 		NULL
 	},
-	*/
 	{
 		"a*b*c*d*e*f*g*h*i*j*k*l*m*n*o*p*q*r*s*t*u*v*w*x*y***",
 		"aaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmm"
