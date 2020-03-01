@@ -36,7 +36,31 @@ char	*tests[][MAX_NAME_STRINGS] =
 		NULL
 	},
 	{
+		"[\\][]]]]\\[\\[\\[wut\\?[\\?a-z[:digit:]]\\????.lol",
+		"]]]][[[wut???wut.lol",
+		"[]]][[[wut???wut.lol",
+		"[]]][[[wut?a?wut.lol",
+		"[]]][[[wut?k?wut.lol",
+		"[]]][[[wut?z?wut.lol",
+		"[]]][[[wut?1?wut.lol",
+		"[]]][[[wut?7?wut.lol",
+		"[]]][[[wut?9?wut.lol",
+		NULL
+	},
+	{
 		"[\\][]]]]\\[\\[\\[wut\\?[\\?a-z:digit:]\\????.lol",
+		"]]]][[[wut???wut.lol",
+		"[]]][[[wut???wut.lol",
+		"[]]][[[wut?a?wut.lol",
+		"[]]][[[wut?k?wut.lol",
+		"[]]][[[wut?z?wut.lol",
+		"[]]][[[wut?1?wut.lol",
+		"[]]][[[wut?7?wut.lol",
+		"[]]][[[wut?9?wut.lol",
+		NULL
+	},
+	{
+		"[\\][]]]]\\[\\[\\[wut\\?[[:alnum:]]\\????.lol",
 		"]]]][[[wut???wut.lol",
 		"[]]][[[wut???wut.lol",
 		"[]]][[[wut?a?wut.lol",
