@@ -24,8 +24,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"pRANDoRAND::::ao",
 		NULL
 	},
-
-
 	{
 		"[\\][]]]]\\[\\[\\[wut\\?[\\?a-z:digit:]\\????.lol",
 		"]]]][[[wut???wut.lol",
@@ -38,8 +36,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"[]]][[[wut?9?wut.lol",
 		NULL
 	},
-
-
 	{
 		"[\\][]]]]\\[\\[\\[wut\\?[:alnum:]\\????.lol",
 		"]]]][[[wut???wut.lol",
@@ -52,8 +48,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"[]]][[[wut?9?wut.lol",
 		NULL
 	},
-
-
 	{
 		"[a-z345A-Z][a-zCDE0-9][0-9abcA-Z]",
 		"ab9",
@@ -69,8 +63,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"bbba",
 		NULL
 	},
-
-
 	{
 		"_---[\\-][!a-z][\\-]---_",
 		"_----A----_",
@@ -79,8 +71,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"_----b----_",
 		NULL
 	},
-
-
 	{
 		"_---[\\-][-----][\\-]---_",
 		"_---------_",
@@ -89,8 +79,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"_----b----_",
 		NULL
 	},
-
-
 	{
 		"_---[\\-][-][\\-]---_",
 		"_---------_",
@@ -99,8 +87,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"_----b----_",
 		NULL
 	},
-
-
 	{
 		"_---[\\-][--][\\-]---_",
 		"_---------_",
@@ -109,8 +95,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"_----b----_",
 		NULL
 	},
-
-
 	{
 		"_---[\\-][---][\\-]---_",
 		"_---------_",
@@ -119,15 +103,13 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"_----b----_",
 		NULL
 	},
-
-
 	{
 		"[a-z-~]",
 		"a",
 		"b",
 		"~",
 		"-",
-		"	{",
+		"{",
 		"|",
 		"}",
 		"A",
@@ -135,8 +117,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"C",
 		NULL
 	},
-
-
 	{
 		"[a-y\\-z-~]",
 		"a",
@@ -144,7 +124,7 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"z",
 		"~",
 		"-",
-		"	{",
+		"{",
 		"|",
 		"}",
 		"A",
@@ -152,8 +132,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"C",
 		NULL
 	},
-
-
 	{
 		"[a-yz-~]",
 		"a",
@@ -161,7 +139,7 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"z",
 		"~",
 		"-",
-		"	{",
+		"{",
 		"|",
 		"}",
 		"A",
@@ -169,8 +147,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"C",
 		NULL
 	},
-
-
 	{
 		"[!]",
 		"!",
@@ -179,16 +155,163 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"",
 		NULL
 	},
-
-
-
+	{
+		"[]",
+		"!",
+		"a",
+		"C",
+		"",
+		NULL
+	},
+	{
+		"[-z]",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[z-]",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[z-a]",
+		"c",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[!-z]",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[!z-]",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[!z-a]",
+		"c",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[--9]",
+		"0",
+		"-",
+		"9",
+		"a",
+		NULL
+	},
+	{
+		"[!--9]",
+		"0",
+		"-",
+		"9",
+		"a",
+		NULL
+	},
+	{
+		"[a-a]",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[!a-a]",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[a-az]",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[a-az-]",
+		"a",
+		"-",
+		"z",
+		NULL
+	},
+	{
+		"[a-",
+		"[",
+		"a",
+		"-",
+		"c",
+		NULL
+	},
+	{
+		"[a-z",
+		"[",
+		"a",
+		"-",
+		"z",
+		"t",
+		"y",
+		NULL
+	},
+	{
+		"[!a-",
+		"[",
+		"a",
+		"-",
+		"c",
+		NULL
+	},
+	{
+		"[!a-z",
+		"[",
+		"a",
+		"-",
+		"z",
+		"t",
+		"y",
+		NULL
+	},
+	{
+		"[!-a]",
+		"!",
+		"-",
+		"a",
+		"b",
+		"c",
+		NULL
+	},
+	{
+		"[!-]",
+		"!",
+		"-",
+		"a",
+		"b",
+		"c",
+		NULL
+	},
 	{
 		"[z-a\\-~-z]",
 		"a",
 		"b",
 		"~",
 		"-",
-		"	{",
+		"{",
 		"|",
 		"}",
 		"A",
@@ -196,8 +319,16 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"C",
 		NULL
 	},
-
-
+	{
+		"[a-y~-z]",
+		"a",
+		"m",
+		"y",
+		"~",
+		"-",
+		"z",
+		NULL
+	},
 	{
 		"abc\\\\[abc]\\\\[def]\\\\[ghi]\\\\\\*\\*\\*\\",
 		"abc\\a\\d\\g\\***\\\\",
@@ -206,8 +337,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"abc\\c\\f\\i\\***",
 		NULL
 	},
-
-
 	{
 		"abc\\\\[abc]\\\\[def]\\\\[ghi]\\\\\\*\\*\\*\\\\",
 		"abc\\a\\d\\g\\***\\\\",
@@ -216,9 +345,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"abc\\c\\f\\i\\***",
 		NULL
 	},
-
-
-
 	{
 		"abc\\\\[abc]\\\\[def]\\\\[ghi]\\\\\\*\\*\\*",
 		"abc\\a\\d\\g\\***",
@@ -226,29 +352,21 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"abc\\c\\f\\i\\***",
 		NULL
 	},
-
-
 	{
 		"[[[[[[[[[[[",
 		"[[[[[[[[[[[",
 		NULL
 	},
-
-
 	{
 		"[[[[[[[[[[[????",
 		"[[[[[[[[[[[asdf",
 		NULL
 	},
-
-
 	{
 		"[[[[[[[[[[[]????*lol",
 		"[[[[[[[[[[[]asdf123456789lol",
 		NULL
 	},
-
-
 	{
 		"/.root/.*/*/[a-z0-9]ol",
 		"/.root/.invisible_subdir/other_subdir/lol",
@@ -258,57 +376,41 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"/.root/.invisible_subdir/extra_subdir/other_subdir/9ol",
 		NULL
 	},
-
-
 	{
 		"/.root/?invisible_subdir/other_subdir/9ol",
 		"/.root/.invisible_subdir/other_subdir/9ol",
 		NULL
 	},
-
-
 	{
 		"/?root/.invisible_subdir/other_subdir/9ol",
 		"/.root/.invisible_subdir/other_subdir/9ol",
 		NULL
 	},
-
-
 	{
 		"/.root/.invisible_subdir/other_subdir?9ol",
 		"/.root/.invisible_subdir?other_subdir/9ol",
 		NULL
 	},
-
-
 	{
 		"/.*/.invisible_subdir/*/9ol",
 		"/.root/.invisible_subdir/other_subdir/9ol",
 		NULL
 	},
-
-
 	{
 		"/.root/.invisible_subdir/other_subdir*9ol",
 		"/.root/.invisible_subdir/other_subdir/9ol",
 		NULL
 	},
-
-
 	{
 		"/.root/.invisible_subdir/other_subdi*/9ol",
 		"/.root/.invisible_subdir/other_subdir/9ol",
 		NULL
 	},
-
-
 	{
 		"*root/.invisible_subdir/other_subdir/9ol",
 		"/.root/.invisible_subdir/other_subdir/9ol",
 		NULL
 	},
-
-
 	{
 		"/.root??invisible_subdir/other_subdir/9ol",
 		"/.root/.invisible_subdir/other_subdir/9ol",
@@ -320,7 +422,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"/.root/.invisible_subdir/other_subdir/9ol",
 		NULL
 	},
-
 	{
 		"/.*/.*/*/*",
 		"/.root/.invisible_subdir/other_subdir/9ol",
@@ -330,7 +431,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"/.root/.invisible_subdir/other_subdir//9ol",
 		NULL
 	},
-
 	{
 		".*/.*/*/*",
 		".root/.invisible_subdir/other_subdir/9ol",
@@ -340,7 +440,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		".root/.invisible_subdir/other_subdir//9ol",
 		NULL
 	},
-
 	{
 		"*/.*/*/*",
 		"root/.invisible_subdir/other_subdir/9ol",
@@ -350,67 +449,56 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"root/.invisible_subdir/other_subdir//9ol",
 		NULL
 	},
-
 	{
 		"lol/myass/wut",
 		"lol/myass/wut",
 		NULL
 	},
-
 	{
 		"*/myass/wut",
 		"lol/myass/wut",
 		NULL
 	},
-
 	{
 		"lol/*/wut",
 		"lol/myass/wut",
 		NULL
 	},
-
 	{
 		"lol/myass/*",
 		"lol/myass/wut",
 		NULL
 	},
-
 	{
 		"*/myass/*",
 		"lol/myass/wut",
 		NULL
 	},
-
 	{
 		"*/*/wut",
 		"lol/myass/wut",
 		NULL
 	},
-
 	{
 		"*/*/*",
 		"lol/myass/wut",
 		NULL
 	},
-
 	{
 		"lol/wut",
 		"lol/wut",
 		NULL
 	},
-
 	{
 		"*/wut",
 		"lol/wut",
 		NULL
 	},
-
 	{
 		"lol/*",
 		"lol/wut",
 		NULL
 	},
-
 	{
 		"lol/*/",
 		"lol/wut/",
@@ -419,7 +507,6 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"lol/wut",
 		NULL
 	},
-
 	{
 		"*/*",
 		"lol/wut",
@@ -427,14 +514,12 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"lol//",
 		NULL
 	},
-
 	{
 		"*lol/wut*",
 		"lol/wut",
 		"lol/wut/",
 		NULL
 	},
-
 	{
 		"*/",
 		"l/",

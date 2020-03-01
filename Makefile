@@ -47,7 +47,7 @@ $(SUB1D)/libft.a:
 
 ft_fnmatch.o: ft_fnmatch.h ft_fnmatch_internal.h
 g_char_classes.o: libft.h g_char_classes.h
-match_brack.o: libft.h g_char_classes.h ft_fnmatch_internal.h
+match_brack.o: libft.h ft_fnmatch.h g_char_classes.h ft_fnmatch_internal.h
 match.o: libft.h ft_fnmatch.h ft_fnmatch_internal.h
 test_fnmatch.o: c_colors.h ft_fnmatch.h
 %.o: %.c

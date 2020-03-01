@@ -18,7 +18,7 @@ const t_char_class	g_char_classes[] =
 	{NULL, NULL}
 };
 
-int			get_char_class(char c, const char *name)
+t_char_class_fct	get_char_class_fct(const char *name)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int			get_char_class(char c, const char *name)
 	while (g_char_classes[++i].name)
 	{
 		if (!ft_strcmp(name, g_char_classes[i].name))
-			return (g_char_classes[i].f(c));
+			return (g_char_classes[i].f);
 	}
-	return (0);
+	return (NULL);
 }

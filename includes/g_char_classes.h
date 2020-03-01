@@ -8,10 +8,12 @@
 
 #define MAX_CHAR_CLASS_NAME	8
 
+typedef int			(*t_char_class_fct)(char);
+
 typedef struct			s_char_class
 {
 	const char		*name;
-	int			(*f)(char);
+	t_char_class_fct	f;
 }				t_char_class;
 
 extern const t_char_class	g_char_classes[];
@@ -29,6 +31,6 @@ int				ft_fnm_is_cntrl(char c);
 int				ft_fnm_is_print(char c);
 int				ft_fnm_is_xdigit(char c);
 
-int				get_char_class(char c, const char *name);
+t_char_class_fct		get_char_class_fct(const char *name);
 
 #endif

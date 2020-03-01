@@ -1,91 +1,83 @@
 #include "libft.h"
+#include "ft_fnmatch.h"
 #include "g_char_classes.h"
 #include "ft_fnmatch_internal.h"
 
-/*
-TODO: maybe treat invalid globbing syntax explicitly as an error
-and return -1 or something like that (this should be handled in
-parent functions then)
-*/
-
-static char	*find_end(char *pattern, t_flags *flags)
+static t_char_class_fct	valid_char_class(char **cur, char *end)
 {
-	while (*pattern && (*pattern != ']' || (flags->cur & FT_IFNM_SKIP)))
-	{
-		set_flags(*pattern, 0, flags);
-		++pattern;
-	}
-	if (*pattern == ']')
-		++pattern;
-	return (pattern);
-}
-
-static int	match_char_class(char **pattern, char string)
-{
-	size_t	len;
-	int	match;
-	char	name[MAX_CHAR_CLASS_NAME + 1];
+	t_char_class_fct	f;
+	size_t			len;
+	char			*ptr;
+	char			name[MAX_CHAR_CLASS_NAME + 1];
 
 	len = 0;
-	while (len < MAX_CHAR_CLASS_NAME && *++(*pattern) != ':' && **pattern)
-		name[len++] = **pattern;
+	ptr = *cur + 1;
+	while (len < MAX_CHAR_CLASS_NAME && ptr != end && *ptr != ':')
+		name[len++] = *ptr++;
 	name[len] = 0;
-	match = get_char_class(string, name);
-	*pattern = **pattern ? *pattern + 1 : *pattern;
-	return (match);
+	f = ptr == end ? NULL : get_char_class_fct(name);
+	if (f)
+		*cur = ptr;
+	return (f);
 }
 
-static int	match_range(char *last_char, char **pattern, char string,
-			t_flags *flags)
+static int		set_cur(char **cur, char **beg, char **end, int *skip)
 {
-	int	match;
-	int	next_char;
-
-	++(*pattern);
-	next_char = 0;
-	if (set_flags(**pattern, string, flags) & FT_IFNM_SKIP)
+	*end = *beg;
+	while (**end && (**end != ']' || *skip > 0))
 	{
-		++(*pattern);
-		set_flags(**pattern, string, flags);
+		*skip = *skip == -1 ? *skip : **end == '\\';
+		++(*end);
 	}
-	if (!(next_char = **pattern))
-		return (0);
-	match = string >= *last_char && string <= next_char;
-	*last_char = next_char;
-	++(*pattern);
-	return (match);
+	*skip = *skip == -1 ? *skip : (*beg)[1] == '\\';
+	*cur = *beg + 1 + (*skip > 0);
+	return (**end != ']' || *end == *beg + 1);
 }
 
-//TODO: normify
-int		match_brack(const char **pattern, const char **string,
-			t_flags *flags)
+static int		exec_match(char **cur, char *end, char string, int skip)
 {
-	int	not;
-	char	*ptr;
+	t_char_class_fct	f;
+	int			match;
+	char			*next_char;
+
+	if ((*cur)[1] == '-' && *cur + 2 != end)
+	{
+		next_char = (*cur)[2] != '\\' || skip < 0 ?
+			*cur + 2 : *cur + 3;
+		match = (string >= **cur && string <= *next_char);
+		*cur = next_char;
+		return (match);
+	}
+	else if (**cur == ':' && skip != 1 && (f = valid_char_class(cur, end)))
+		return (f(string));
+	return (**cur == string);
+}
+
+int			match_brack(const char **pattern, const char **string,
+				t_flags *flags)
+{
+	char	*beg;
+	char	*end;
+	char	*cur;
+	int	skip;
 	int	match;
-	char	last_char;
 
 	match = 0;
-	if (explicit_match(**string, flags))
+	beg = (char *)(*pattern)++;
+	beg = **pattern == '!' ? (char *)(*pattern)++ : beg;
+	skip = flags->cur & FT_FNM_NOESCAPE ? -1 : 0;
+	if (explicit_match(**string, flags) || set_cur(&cur, &beg, &end, &skip))
 		return (match);
-	last_char = 0;
-	not = *++(*pattern) == '!';
-	ptr = (char *)(not ? *pattern + 1 : *pattern);
-	while (!match && *ptr && (*ptr != ']' || (flags->cur & FT_IFNM_SKIP)))
+	while (!match && cur < end)
 	{
-		if (set_flags(*ptr, **string, flags) & FT_IFNM_SKIP)
-			++ptr;
-		else if (*ptr == '-' && !(flags->cur & FT_IFNM_FORCE_REG))
-			match = match_range(&last_char, &ptr, **string, flags);
-		else if (*ptr == ':' && !(flags->cur & FT_IFNM_FORCE_REG))
-			match = match_char_class(&ptr, **string);
-		else
+		if (skip || !(skip = *cur == '\\'))
 		{
-			last_char = *ptr;
-			match = *ptr++ == **string;
+			match = exec_match(&cur, end, **string, skip);
+			skip = skip > 0 ? 0 : skip;
 		}
+		++cur;
 	}
-	*pattern = find_end(ptr, flags);
+	*pattern = end + 1;
 	*string = **string ? *string + 1 : *string;
-	return (not ? !match : match);
+	return (*beg == '!' ? !match : match);
 }
