@@ -25,6 +25,17 @@ char	*tests[][MAX_NAME_STRINGS] =
 		NULL
 	},
 	{
+		"[[:alpha:]]*o*[\\:]*[adfxsfsf]ol*",
+		"lo:!ol",
+		"lo:xol",
+		"aRANDOMoRANDOM:RANDaolRAND",
+		"ARANDoRAND::::aol",
+		"ARANDoRAND::::ao",
+		"lRANDoRAND::::aol",
+		"pRANDoRAND::::ao",
+		NULL
+	},
+	{
 		"[\\][]]]]\\[\\[\\[wut\\?[\\?a-z:digit:]\\????.lol",
 		"]]]][[[wut???wut.lol",
 		"[]]][[[wut???wut.lol",
@@ -524,6 +535,79 @@ char	*tests[][MAX_NAME_STRINGS] =
 		"*/",
 		"l/",
 		"lol/",
+		NULL
+	},
+	{
+		"a*b",
+		"ab",
+		"aabb",
+		"aaabbb",
+		"aaaabbbb",
+		NULL
+	},
+	{
+		"a*b*c",
+		"abc",
+		"aabbcc",
+		"aaabbbccc",
+		"aaaabbbbcccc",
+		NULL
+	},
+	{
+		"a*b*c*",
+		"ab",
+		"aabb",
+		"aaabbb",
+		"aaaabbbb",
+		NULL
+	},
+	{
+		"a*bb*",
+		"abb",
+		"aabb",
+		"aaabbb",
+		"aaaabbbb",
+		NULL
+	},
+	{
+		"a*bb",
+		"abb",
+		"aabb",
+		"aaabbb",
+		"aaaabbbb",
+		NULL
+	},
+	/*
+	{
+		"a*b*c*d*e*f*g*h*i*j*k*l*m*n",
+		"abcdefghijklm",
+		"aabbccddeeffgghhiijjkkllmm",
+		"aaabbbcccdddeeefffggghhhiiijjjkkklllmmm",
+		"aaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmm",
+		NULL
+	},
+	{
+		"a*b*c*d*e*f*g*h*i*j*k*l*m*n*o*p*q*r*s*t*u*v*w*x*y*z*",
+		"aaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmm"
+		"nnnnooooppppqqqqrrrrssssttttuuuuvvvvwwwwxxxxyyyy",
+		NULL
+	},
+	*/
+	{
+		"a*b*c*d*e*f*g*h*i*j*k*l*m*n*o*p*q*r*s*t*u*v*w*x*y***",
+		"aaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmm"
+		"nnnnooooppppqqqqrrrrssssttttuuuuvvvvwwwwxxxxyyyy",
+		NULL
+	},
+	{
+		"a*b/*",
+		"abbb/.x",
+		"abbb/xy",
+		NULL
+	},
+	{
+		"[",
+		"[",
 		NULL
 	},
 	{NULL}

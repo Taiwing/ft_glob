@@ -30,24 +30,18 @@ int		match_reg(const char **pattern, const char **string)
 	return (match);
 }
 
-
 int		match_star(const char **pattern, const char **string,
 				t_flags *flags)
 {
-	int	match;
-	char	*string_end;
-	char	*pattern_end;
+	int		match;
 
 	while ((*pattern)[1] == '*')
 		++(*pattern);
 	if (explicit_match(**string, flags))
 		return (*++(*pattern) && match_reg(pattern, string));
-	match = 0;
-	string_end = ft_strchr(*string, 0);
-	pattern_end = ft_strchr(*pattern, 0);
-	match = !ft_fnmatch_internal(*pattern + 1, *string, *flags)
-	|| (**string && !ft_fnmatch_internal(*pattern, *string + 1, *flags));
-	*string = string_end;
-	*pattern = pattern_end;
+	match = (**string && !ft_fnmatch_internal(*pattern, *string + 1, *flags))
+		|| !ft_fnmatch_internal(*pattern + 1, *string, *flags);
+	*string = ft_strchr(*string, 0);
+	*pattern = ft_strchr(*pattern, 0);
 	return (match);
 }
