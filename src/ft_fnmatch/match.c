@@ -38,12 +38,10 @@ int		match_star(const char **pattern, const char **string,
 	char	*string_end;
 	char	*pattern_end;
 
+	while ((*pattern)[1] == '*')
+		++(*pattern);
 	if (explicit_match(**string, flags))
-	{
-		while (**pattern == '*')
-			++(*pattern);
-		return (**pattern && match_reg(pattern, string));
-	}
+		return (*++(*pattern) && match_reg(pattern, string));
 	match = 0;
 	string_end = ft_strchr(*string, 0);
 	pattern_end = ft_strchr(*pattern, 0);
