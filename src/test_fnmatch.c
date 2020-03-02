@@ -1126,6 +1126,8 @@ char	*tests[][MAX_NAME_STRINGS] =
 	{"[]","[","]","[]",NULL},
 	{"[a-\\","a","b","\\","[a-\\",NULL},
 	{"[Z-]z]","Z","]","z","a","Zz]","-z]",NULL},
+	{"da*da*da*","daaadabadmanda",NULL},
+	{"*?","xx",NULL},
 	{NULL}
 };
 
