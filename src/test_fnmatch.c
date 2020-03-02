@@ -184,6 +184,7 @@ char	*tests[][MAX_NAME_STRINGS] =
 	},
 	{
 		"[!]",
+		"[!]",
 		"!",
 		"a",
 		"C",
@@ -191,6 +192,7 @@ char	*tests[][MAX_NAME_STRINGS] =
 		NULL
 	},
 	{
+		"[]",
 		"[]",
 		"!",
 		"a",
@@ -774,6 +776,7 @@ char	*tests[][MAX_NAME_STRINGS] =
 		NULL
 	},
 	{
+		"[][abc]",
 		"[][abc]",
 		"a",
 		NULL

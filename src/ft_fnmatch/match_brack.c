@@ -47,18 +47,17 @@ int			match_brack(const char **pattern, const char **string,
 				t_flags *flags)
 {
 	const char	*cur;
-	int		not;
+	const char	*not;
 	int		skip;
 	int		match;
 
 	cur = *pattern + 1;
-	if ((not = *cur == '!'))
-		++cur;
+	not = *cur == '!' ? cur++ : *pattern;
 	if (explicit_match(**string, flags))
 		return (0);
 	match = 0;
 	skip = flags->cur & FT_FNM_NOESCAPE ? -1 : 0;
-	while (*cur && (*cur != ']' || skip > 0))
+	while (*cur && (*cur != ']' || skip > 0 || cur == not + 1))
 	{
 		if (skip || !(skip = *cur == '\\'))
 		{
@@ -71,5 +70,5 @@ int			match_brack(const char **pattern, const char **string,
 		return (match_reg(pattern, string));
 	*string = **string ? *string + 1 : *string;
 	*pattern = *cur ? cur + 1 : cur;
-	return (not ? !match : match);
+	return (*not == '!' ? !match : match);
 }
