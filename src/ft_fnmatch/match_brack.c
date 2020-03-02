@@ -29,7 +29,7 @@ static int		exec_match(const char **cur, char string, int skip)
 	char			cur_char;
 	const char		*next_char;
 
-	if ((*cur)[1] == '-')
+	if ((*cur)[1] == '-' && (*cur)[2] != ']')
 	{
 		next_char = (*cur)[2] != '\\' || skip < 0 ?
 			*cur + 2 : *cur + 3;
