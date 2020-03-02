@@ -54,9 +54,7 @@ int		ft_fnmatch_internal(const char *pattern, const char *string,
 		else
 			match = match_reg(&pattern, &string);
 	}
-	if (match < 0)
-		return (match);
-	return (*pattern || *string || !match);
+	return (match < 0 ? match : *pattern || *string || !match);
 }
 
 int		ft_fnmatch(const char *pattern, const char *string, int flags)
