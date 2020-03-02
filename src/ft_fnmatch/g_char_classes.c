@@ -18,14 +18,15 @@ const t_char_class	g_char_classes[] =
 	{NULL, NULL}
 };
 
-t_char_class_fct	get_char_class_fct(const char *name)
+t_char_class_fct	get_char_class_fct(const char *name, size_t len)
 {
 	int	i;
 
 	i = -1;
 	while (g_char_classes[++i].name)
 	{
-		if (!ft_strcmp(name, g_char_classes[i].name))
+		if (ft_strlen(g_char_classes[i].name) == len
+			&& !ft_strncmp(name, g_char_classes[i].name, len))
 			return (g_char_classes[i].f);
 	}
 	return (NULL);

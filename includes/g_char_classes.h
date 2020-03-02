@@ -31,6 +31,7 @@ int				ft_fnm_is_cntrl(char c);
 int				ft_fnm_is_print(char c);
 int				ft_fnm_is_xdigit(char c);
 
-t_char_class_fct		get_char_class_fct(const char *name);
+t_char_class_fct		get_char_class_fct(const char *name,
+					size_t len);
 
 #endif

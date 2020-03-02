@@ -3,52 +3,42 @@
 #include "g_char_classes.h"
 #include "ft_fnmatch_internal.h"
 
-static t_char_class_fct	valid_char_class(char **cur, char *end)
+static t_char_class_fct	valid_char_class(const char **cur)
 {
 	t_char_class_fct	f;
 	size_t			len;
-	char			*ptr;
-	char			name[MAX_CHAR_CLASS_NAME + 1];
+	const char		*ptr;
 
 	len = 0;
-	ptr = *cur + 1;
-	while (len < MAX_CHAR_CLASS_NAME && ptr != end && *ptr != ':')
-		name[len++] = *ptr++;
-	name[len] = 0;
-	f = ptr == end ? NULL : get_char_class_fct(name);
-	if (f)
-		*cur = ptr;
+	ptr = *cur + 2;
+	while (*ptr && *ptr != ':')
+	{
+		++ptr;
+		++len;
+	}
+	if (*ptr != ':' || *(ptr + 1) != ']')
+		return (NULL);
+	f = get_char_class_fct(*cur + 2, len);
+	*cur = f ? ptr + 1 : *cur;
 	return (f);
 }
 
-static int		set_cur(char **cur, char **beg, char **end, int *skip)
-{
-	*end = *beg;
-	while (**end && (**end != ']' || *skip > 0))
-	{
-		*skip = *skip == -1 ? *skip : **end == '\\';
-		++(*end);
-	}
-	*skip = *skip == -1 ? *skip : (*beg)[1] == '\\';
-	*cur = *beg + 1 + (*skip > 0);
-	return (**end != ']' || *end == *beg + 1);
-}
-
-static int		exec_match(char **cur, char *end, char string, int skip)
+static int		exec_match(const char **cur, char string, int skip)
 {
 	t_char_class_fct	f;
-	int			match;
-	char			*next_char;
+	char			cur_char;
+	const char		*next_char;
 
-	if ((*cur)[1] == '-' && *cur + 2 != end)
+	if ((*cur)[1] == '-')
 	{
 		next_char = (*cur)[2] != '\\' || skip < 0 ?
 			*cur + 2 : *cur + 3;
-		match = (string >= **cur && string <= *next_char);
-		*cur = next_char;
-		return (match);
+		cur_char = **cur;
+		*cur = *next_char ? next_char : next_char - 1;
+		return (string >= cur_char && string <= *next_char);
 	}
-	else if (**cur == ':' && skip != 1 && (f = valid_char_class(cur, end)))
+	else if (**cur == '[' && skip != 1 && (*cur)[1] == ':'
+		&& (f = valid_char_class(cur)))
 		return (f(string));
 	return (**cur == string);
 }
@@ -56,28 +46,33 @@ static int		exec_match(char **cur, char *end, char string, int skip)
 int			match_brack(const char **pattern, const char **string,
 				t_flags *flags)
 {
-	char	*beg;
-	char	*end;
-	char	*cur;
-	int	skip;
-	int	match;
 
+	const char	*cur;
+	int		not;
+	int		skip;
+	int		match;
+	const char	*brack;
+
+	cur = *pattern + 1;
+	if ((not = *cur == '!'))
+		++cur;
+	if (explicit_match(**string, flags))
+		return (0);
 	match = 0;
-	beg = (char *)(*pattern)++;
-	beg = **pattern == '!' ? (char *)(*pattern)++ : beg;
+	brack = NULL;
 	skip = flags->cur & FT_FNM_NOESCAPE ? -1 : 0;
-	if (explicit_match(**string, flags) || set_cur(&cur, &beg, &end, &skip))
-		return (match);
-	while (!match && cur < end)
+	while (*cur && (*cur != ']' || skip > 0))
 	{
+		if ((brack = *cur == ']' ? cur : brack) && (match & 1))
+			match = match >> 1;
 		if (skip || !(skip = *cur == '\\'))
 		{
-			match = exec_match(&cur, end, **string, skip);
+			match |= exec_match(&cur, **string, skip);
 			skip = skip > 0 ? 0 : skip;
 		}
 		++cur;
 	}
-	*pattern = end + 1;
 	*string = **string ? *string + 1 : *string;
-	return (*beg == '!' ? !match : match);
+	*pattern = *cur ? cur + 1 : cur;
+	return (not ? !match : match);
 }
