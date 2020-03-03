@@ -64,5 +64,7 @@ int		ft_fnmatch(const char *pattern, const char *string, int flags)
 	f.next = 0;
 	f.cur = flags;
 	set_flags(0, '/', &f);
-	return (!!ft_fnmatch_internal(pattern, string, f));
+	if (ft_fnmatch_internal(pattern, string, f))
+		return (FT_FNM_NOMATCH);
+	return (0);
 }

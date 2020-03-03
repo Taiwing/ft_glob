@@ -24,6 +24,8 @@
 /* TODO: NOT IMPLEMENTED YET */
 # define FT_FNM_CASEFOLD	0x08	/* Make fnmatch case insensitive (GNU) */
 
+# define FT_FNM_NOMATCH		0x01	/* To be returned if there is no match */
+
 int	ft_fnmatch(const char *pattern, const char *string, int flags);
 
 #endif
