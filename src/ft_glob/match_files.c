@@ -25,7 +25,7 @@ t_list	*find_file(const char *path, const char *cur_pattern,
 	struct stat	statbuf;
 	t_list		*match;
 
-	path = !ft_strcmp(path, "/") ? "" : path;
+	path = path && !ft_strcmp(path, "/") ? "" : path;
 	if (!(pathname = (const char *)check_mem(gl,
 		(void *)add_to_path(path, cur_pattern))))
 		return (NULL);

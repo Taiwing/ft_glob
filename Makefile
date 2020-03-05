@@ -28,6 +28,7 @@ FT_FNMATCHC		=	ft_fnmatch.c\
 
 FT_GLOBC		=	slash_path.c\
 					ft_glob.c\
+					test_glob.c\
 					match_next_pattern.c\
 					store_match_list.c\
 					match_files.c\
@@ -60,6 +61,7 @@ match_brack.o: libft.h ft_fnmatch.h g_char_classes.h ft_fnmatch_internal.h
 match.o: libft.h ft_fnmatch.h ft_fnmatch_internal.h
 slash_path.o: ft_glob_internal.h ft_glob.h libft.h
 ft_glob.o: ft_glob_internal.h ft_glob.h libft.h ft_fnmatch.h
+test_glob.o: ft_glob.h
 match_next_pattern.o: ft_glob_internal.h ft_glob.h libft.h
 store_match_list.o: ft_glob_internal.h ft_glob.h libft.h
 match_files.o: ft_glob_internal.h ft_glob.h libft.h ft_fnmatch.h

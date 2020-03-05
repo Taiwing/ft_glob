@@ -70,12 +70,14 @@ enum e_pathtype		slash_path(const char **pattern,
 		++(*pattern);
 		return (GL_END);
 	}
-	end = go_to_end_of_pattern(*pattern + 1, &type, gl);
+	end = go_to_end_of_pattern((*pattern)[0] == '/' ?
+		*pattern + 1 : *pattern, &type, gl);
 	if ((*pattern)[0] == '/')
 		*cur_pattern = (const char *)check_mem(gl,
 			ft_strndup(*pattern + 1, end - (*pattern + 1)));
 	else
 		*cur_pattern = (const char *)check_mem(gl,
 			ft_strndup(*pattern, end - *pattern));
+	*pattern = end;
 	return (*cur_pattern ? type : GL_NONE);
 }

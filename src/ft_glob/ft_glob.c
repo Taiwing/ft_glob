@@ -23,6 +23,11 @@ void		*check_mem(t_glob_internal *gl, void *mem)
 
 void		ft_globfree(t_glob *pglob)
 {
+	size_t	i;
+
+	i = pglob->gl_offs;
+	while (i < pglob->gl_offs + pglob->gl_pathc)
+		ft_memdel((void **)pglob->gl_pathv + i++);
 	ft_memdel((void **)&pglob->gl_pathv);
 	ft_bzero((void *)pglob, sizeof(t_glob));
 }
