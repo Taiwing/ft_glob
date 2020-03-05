@@ -63,21 +63,13 @@ enum e_pathtype		slash_path(const char **pattern,
 
 	if (!**pattern)
 		return (GL_NONE);
-	while ((*pattern)[0] == '/' && (*pattern)[1] == '/')
+	while (**pattern == '/')
 		++(*pattern);
-	if ((*pattern)[0] == '/' && !(*pattern)[1])
-	{
-		++(*pattern);
+	if (!**pattern)
 		return (GL_END);
-	}
-	end = go_to_end_of_pattern((*pattern)[0] == '/' ?
-		*pattern + 1 : *pattern, &type, gl);
-	if ((*pattern)[0] == '/')
-		*cur_pattern = (const char *)check_mem(gl,
-			ft_strndup(*pattern + 1, end - (*pattern + 1)));
-	else
-		*cur_pattern = (const char *)check_mem(gl,
-			ft_strndup(*pattern, end - *pattern));
+	end = go_to_end_of_pattern(*pattern, &type, gl);
+	*cur_pattern = (const char *)check_mem(gl,
+		ft_strndup(*pattern, end - *pattern));
 	*pattern = end;
 	return (*cur_pattern ? type : GL_NONE);
 }

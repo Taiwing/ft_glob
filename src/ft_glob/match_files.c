@@ -13,19 +13,19 @@ char	*add_to_path(const char *path, const char *to_add)
 	if (!(pathname = ft_strnew(ft_strlen(path) + ft_strlen(to_add) + 1)))
 		return (NULL);
 	ft_strcpy(pathname, path);
-	ft_strcat(pathname, "/");
+	if (path[ft_strlen(path) - 1] != '/')
+		ft_strcat(pathname, "/");
 	ft_strcat(pathname, to_add);
 	return (pathname);
 }
 
 t_list	*find_file(const char *path, const char *cur_pattern,
-			int only_dir, t_glob_internal *gl)
+			int last, t_glob_internal *gl)
 {
 	const char	*pathname;
 	struct stat	statbuf;
 	t_list		*match;
 
-	path = path && !ft_strcmp(path, "/") ? "" : path;
 	if (!(pathname = (const char *)check_mem(gl,
 		(void *)add_to_path(path, cur_pattern))))
 		return (NULL);
@@ -39,7 +39,7 @@ t_list	*find_file(const char *path, const char *cur_pattern,
 		ft_memdel((void **)&pathname);
 		return (NULL);
 	}
-	else if (!only_dir || (statbuf.st_mode & S_IFMT) == S_IFDIR)
+	else if (last || (statbuf.st_mode & S_IFMT) == S_IFDIR)
 		match = (t_list *)check_mem(gl, (void *)ft_lstnew(NULL, 0));
 	if (match)
 		match->content = (void *)pathname;
@@ -77,7 +77,7 @@ t_list	*add_file_lst(const char *path, const char *file,
 }
 
 t_list	*match_files(const char *path, const char *cur_pattern,
-			int only_dir, t_glob_internal *gl)
+			int last, t_glob_internal *gl)
 {
 	int		add_slash;
 	int		eerrno;
@@ -88,14 +88,13 @@ t_list	*match_files(const char *path, const char *cur_pattern,
 	match = NULL;
 	dirp = opendir(path ? path : ".");
 	eerrno = !dirp ? errno : 0;
+	add_slash = last && (gl->flags & FT_GLOB_MARK);
 	while (!eerrno && !gl->ret && (fp = readdir(dirp)))
 	{
-		add_slash = !only_dir && fp->d_type == DT_DIR
-			&& (gl->flags & FT_GLOB_MARK);
-		if ((!only_dir || fp->d_type == DT_DIR)
+		if ((last || fp->d_type == DT_DIR)
 			&& !ft_fnmatch(cur_pattern, fp->d_name, gl->fnmflags))
-			ft_lstadd(&match, add_file_lst(path,
-				fp->d_name, add_slash, gl));
+			ft_lstadd(&match, add_file_lst(path, fp->d_name,
+				add_slash && fp->d_type == DT_DIR, gl));
 	}
 	if ((eerrno = eerrno || !errno ? eerrno : errno)
 		&& ((gl->errf && gl->errf(path, eerrno))

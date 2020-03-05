@@ -45,9 +45,9 @@ t_list		*ft_glob_internal(t_glob_internal *gl, const char *pattern,
 	if (type == GL_END)
 		match = add_file_lst(NULL, path, 1, gl);
 	else if (type == GL_RAWPATH)
-		match = find_file(path, cur_pattern, *pattern == '/', gl);
+		match = find_file(path, cur_pattern, *pattern != '/', gl);
 	else if (type == GL_WILDCARD)
-		match = match_files(path, cur_pattern, *pattern == '/', gl);
+		match = match_files(path, cur_pattern, *pattern != '/', gl);
 	/*
 	else if (type == GL_BRACKS)
 		return (parse_brackets(path, cur_pattern, pattern, gl));
