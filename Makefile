@@ -16,6 +16,7 @@ FT_FNMATCHDIR	=	ft_fnmatch
 FT_GLOBDIR		=	ft_glob
 
 SRCC			=	test_fnmatch.c\
+					test_glob.c\
 					main.c\
 
 FT_FNMATCHC		=	ft_fnmatch.c\
@@ -28,10 +29,9 @@ FT_FNMATCHC		=	ft_fnmatch.c\
 
 FT_GLOBC		=	slash_path.c\
 					ft_glob.c\
-					test_glob.c\
-					match_next_pattern.c\
+					file_utils.c\
+					match_patterns.c\
 					store_match_list.c\
-					match_files.c\
 
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(FT_FNMATCHC))\
@@ -61,11 +61,11 @@ match_brack.o: libft.h ft_fnmatch.h g_char_classes.h ft_fnmatch_internal.h
 match.o: libft.h ft_fnmatch.h ft_fnmatch_internal.h
 slash_path.o: ft_glob_internal.h ft_glob.h libft.h
 ft_glob.o: ft_glob_internal.h ft_glob.h libft.h ft_fnmatch.h
-test_glob.o: ft_glob.h
-match_next_pattern.o: ft_glob_internal.h ft_glob.h libft.h
+file_utils.o: ft_glob_internal.h ft_glob.h libft.h
+match_patterns.o: ft_glob_internal.h ft_glob.h libft.h ft_fnmatch.h
 store_match_list.o: ft_glob_internal.h ft_glob.h libft.h
-match_files.o: ft_glob_internal.h ft_glob.h libft.h ft_fnmatch.h
 test_fnmatch.o: c_colors.h ft_fnmatch.h
+test_glob.o: ft_glob.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@

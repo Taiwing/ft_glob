@@ -43,7 +43,7 @@ t_list		*ft_glob_internal(t_glob_internal *gl, const char *pattern,
 	cur_pattern = NULL;
 	type = slash_path(&pattern, &cur_pattern, gl);
 	if (type == GL_END)
-		match = add_file_lst(NULL, path, 1, gl);
+		match = add_slash(path, gl);
 	else if (type == GL_RAWPATH)
 		match = find_file(path, cur_pattern, *pattern != '/', gl);
 	else if (type == GL_WILDCARD)
