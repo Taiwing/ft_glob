@@ -20,6 +20,13 @@ void		*check_mem(t_glob_internal *gl, void *mem)
 	return (mem);
 }
 
+
+void		ft_globfree(t_glob *pglob)
+{
+	ft_memdel((void **)&pglob->gl_pathv);
+	ft_bzero((void *)pglob, sizeof(t_glob));
+}
+
 t_list		*ft_glob_internal(t_glob_internal *gl, const char *pattern,
 				const char *path)
 {
