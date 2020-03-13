@@ -1,4 +1,5 @@
 #include "ft_glob.h"
+#include <string.h>
 #include <stdio.h>
 #include <glob.h>
 
@@ -37,6 +38,7 @@ static void	print_ft_glob(int myret, t_glob *pglob)
 
 int		test_glob(char **argv)
 {
+	int	mine;
 	t_glob	mygl;
 	int	myret;
 	int	myflags;
@@ -44,17 +46,28 @@ int		test_glob(char **argv)
 	int	origret;
 	int	origflags;
 
-	myflags = 0;
-	origflags = 0;
+	mine = 1;
+	myflags = FT_GLOB_BRACE;
+	origflags = GLOB_BRACE;
+	if (!strcmp(*argv, "--original"))
+	{
+		mine = 0;
+		++argv;
+	}
 	while (*argv)
 	{
-		myret = ft_glob(*argv, myflags, NULL, &mygl);
+		if (mine)
+			myret = ft_glob(*argv, myflags, NULL, &mygl);
 		origret = glob(*argv, origflags, NULL, &origgl);
-		print_ft_glob(myret, &mygl);
-		puts("");
+		if (mine)
+		{
+			print_ft_glob(myret, &mygl);
+			puts("");
+		}
 		print_glob(origret, &origgl);
 		puts("");
-		ft_globfree(&mygl);
+		if (mine)
+			ft_globfree(&mygl);
 		globfree(&origgl);
 		++argv;
 	}

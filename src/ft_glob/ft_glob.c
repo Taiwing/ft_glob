@@ -48,11 +48,9 @@ t_list		*ft_glob_internal(t_glob_internal *gl, const char *pattern,
 		match = find_file(path, cur_pattern, *pattern != '/', gl);
 	else if (type == GL_WILDCARD)
 		match = match_files(path, cur_pattern, *pattern != '/', gl);
-	/*
-	else if (type == GL_BRACKS)
-		return (parse_brackets(path, cur_pattern, pattern, gl));
-	*/
 	ft_memdel((void **)&cur_pattern);
+	if (type == GL_BRACKS)
+		return (match_curls(path, pattern, gl));
 	if (!gl->ret && match && *pattern)
 		return (match_next_pattern(gl, pattern, match));
 	return (match);

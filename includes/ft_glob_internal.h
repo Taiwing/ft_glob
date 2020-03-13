@@ -49,6 +49,27 @@ t_list			*match_next_pattern(t_glob_internal *gl,
 				const char *pattern, t_list *match);
 int			store_match_list(t_glob *pglob, t_glob_internal *gl,
 				t_list *match);
+
+/*
+** Match curls
+*/
+
+t_list			*match_curls(const char *path, const char *pattern,
+				t_glob_internal *gl);
+
+/*
+** Match curls utils
+*/
+
+const char		*go_to_closing_curl(const char *pattern,	
+				t_glob_internal *gl);
+const char		*get_curl_expression(t_glob_internal *gl,
+				const char *pattern, const char **start,
+				const char **end);
+const char		**build_curl_patterns(const char *start,
+				const char *end, const char *exp,
+				t_glob_internal *gl);
+
 /*
 ** Internal functions
 */
