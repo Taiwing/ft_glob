@@ -49,6 +49,7 @@ t_list			*match_next_pattern(t_glob_internal *gl,
 				const char *pattern, t_list *match);
 int			store_match_list(t_glob *pglob, t_glob_internal *gl,
 				t_list *match);
+int			void_strcmp(void *s1, void *s2);
 
 /*
 ** Match curls
