@@ -1,6 +1,6 @@
 #include "ft_glob_internal.h"
 
-const char	*go_to_closing_curl(const char *pattern,	
+const char		*go_to_closing_curl(const char *pattern,	
 				t_glob_internal *gl)
 {
 	const char	*ptr;
@@ -27,8 +27,8 @@ const char	*go_to_closing_curl(const char *pattern,
 	return (*ptr ? ptr : pattern);
 }
 
-const char	*get_curl_expression(t_glob_internal *gl, const char *pattern,
-			const char **start, const char **end)
+const char		*get_curl_expression(t_glob_internal *gl, const char *pattern,
+				const char **start, const char **end)
 {
 	int	skip;
 
@@ -45,34 +45,40 @@ const char	*get_curl_expression(t_glob_internal *gl, const char *pattern,
 		*start + 1, *end - *start - 1)));
 }
 
-static int	get_cur_exp_len(const char *exp, t_glob_internal *gl)
+static const char	*get_cur_exp(const char *start, const char *end,
+		const char **exp, t_glob_internal *gl)
 {
+	const char	*cur_exp;
 	int		length;
 	int		skip;
 	
 	length = 0;
 	skip = gl->flags & FT_GLOB_NOESCAPE ? -1 : 0;
-	while (exp[length] && (exp[length] != ',' || skip > 0))
+	while ((*exp)[length] && ((*exp)[length] != ',' || skip > 0))
 	{
-		if (exp[length] == '{' && skip != 1)
-			length += go_to_closing_curl(exp, gl) - exp;
+		if ((*exp)[length] == '{' && skip != 1)
+			length += go_to_closing_curl(*exp, gl) - *exp;
 		else
 		{
 			skip = skip == -1 ? skip :
-				!skip && exp[length] == '\\';
+				!skip && (*exp)[length] == '\\';
 			++length;
 		}
 	}
-	return (length);
+	if ((cur_exp = (const char *)check_mem(gl,
+		ft_strnew(ft_strlen(start) + length + ft_strlen(end)))))
+		ft_strcat((char *)ft_strncat((char *)ft_strcat(
+			(char *)cur_exp, start), *exp, length), end);
+	*exp = *exp + length;
+	return (cur_exp);
 }
 
-const char	**build_curl_patterns(const char *start, const char *end,
-			const char *exp, t_glob_internal *gl)
+const char		**build_curl_patterns(const char *start, const char *end,
+				const char *exp, t_glob_internal *gl)
 {
 	static int	size = 0;
 	const char	**tb;
 	const char	*p;
-	int		l;
 
 	p = NULL;
 	tb = NULL;
@@ -80,15 +86,10 @@ const char	**build_curl_patterns(const char *start, const char *end,
 	if (*exp || size == 1)
 	{
 		exp = size > 1 && *exp == ',' ? exp + 1 : exp;
-		l = get_cur_exp_len(exp, gl);
-		if (!(p = (const char *)check_mem(gl,
-			ft_strnew(ft_strlen(start) + l + ft_strlen(end)))))
+		if (!(p = get_cur_exp(start, end, &exp, gl)))
 			size = -1;
-		else
-			ft_strcat((char *)ft_strncat((char *)ft_strcat((char *)p,
-				start), exp, l), end);
 	}
-	if (size != -1 && !(tb = p ? build_curl_patterns(start, end, exp + l,
+	if (size != -1 && !(tb = p ? build_curl_patterns(start, end, exp,
 		gl) : (const char **)check_mem(gl, ft_secmalloc(
 		size * sizeof(char *)))))
 		size = -1;
