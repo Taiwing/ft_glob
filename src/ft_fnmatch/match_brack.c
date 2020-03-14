@@ -53,7 +53,7 @@ int			match_brack(const char **pattern, const char **string,
 
 	cur = *pattern + 1;
 	not = *cur == '!' ? cur++ : *pattern;
-	if (explicit_match(**string, flags))
+	if (explicit_match(**string, flags) || !**string)
 		return (0);
 	match = 0;
 	skip = flags->cur & FT_FNM_NOESCAPE ? -1 : 0;
