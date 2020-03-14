@@ -21,7 +21,8 @@ const char	*go_to_closing_curl(const char *pattern,
 			else if (*ptr == '}')
 				--bracket;
 		}
-		skip = skip == 1 ? 0 : skip;
+		else
+			skip = 0;
 	}
 	return (*ptr ? ptr : pattern);
 }
@@ -40,7 +41,6 @@ const char	*get_curl_expression(t_glob_internal *gl, const char *pattern,
 		++pattern;
 	}
 	*start = pattern;
-//	*end = go_to_closing_curl(pattern, gl);
 	return ((const char *)check_mem(gl, ft_strndup(
 		*start + 1, *end - *start - 1)));
 }
@@ -54,12 +54,14 @@ static int	get_cur_exp_len(const char *exp, t_glob_internal *gl)
 	skip = gl->flags & FT_GLOB_NOESCAPE ? -1 : 0;
 	while (exp[length] && (exp[length] != ',' || skip > 0))
 	{
-		if (skip != -1)
-			skip = !skip && exp[length] == '\\';
-		if (skip != 1 && exp[length] == '{')
+		if (exp[length] == '{' && skip != 1)
 			length += go_to_closing_curl(exp, gl) - exp;
 		else
+		{
+			skip = skip == -1 ? skip :
+				!skip && exp[length] == '\\';
 			++length;
+		}
 	}
 	return (length);
 }

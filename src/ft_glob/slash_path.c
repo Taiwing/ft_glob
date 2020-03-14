@@ -23,7 +23,8 @@ static const char	*go_to_end_of_pattern(const char *pattern,
 				skip = *pattern == '\\' && !skip ? 1 : skip;
 			}
 		}
-		skip = skip == 1 ? 0 : skip;
+		else if (skip == 1)
+			skip = 0;
 		++pattern;
 	}
 	return (pattern);
