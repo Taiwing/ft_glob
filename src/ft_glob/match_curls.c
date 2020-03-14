@@ -33,9 +33,13 @@ t_list		*match_curls(const char *path, const char *pattern,
 		return (NULL);
 	if (!(start = (const char *)check_mem(gl, ft_strndup(
 		pattern, start - pattern))))
+	{
+		ft_memdel((void **)&exp);
 		return (NULL);
+	}
 	if (!(end = (const char *)check_mem(gl, ft_strdup(end + 1))))
 	{
+		ft_memdel((void **)&exp);
 		ft_memdel((void **)&start);
 		return (NULL);
 	}

@@ -18,6 +18,7 @@ static void	build_pathv(t_glob *pglob, char **new_pathv,
 			new_pathv[i] = pglob->gl_pathv[i];
 			++i;
 		}
+		ft_memdel((void **)&pglob->gl_pathv);
 	}
 	while (match)
 	{
@@ -26,7 +27,6 @@ static void	build_pathv(t_glob *pglob, char **new_pathv,
 		match = match->next;
 	}
 	pglob->gl_pathc = i - pglob->gl_offs;
-	ft_memdel((void **)&pglob->gl_pathv);
 	pglob->gl_pathv = new_pathv;
 }
 

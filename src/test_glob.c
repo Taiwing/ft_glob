@@ -115,6 +115,7 @@ int		test_glob(void)
 	int	i = -1;
 
 	ret = 0;
+	puts("");
 	while (glob_tests[++i])
 		ret += exec_glob_test(glob_tests[i]);
 	return (ret);
