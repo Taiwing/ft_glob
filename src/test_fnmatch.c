@@ -5,7 +5,7 @@
 
 #define	MAX_NAME_STRINGS	32
 
-char	*tests[][MAX_NAME_STRINGS] =
+char	*fnmatch_tests[][MAX_NAME_STRINGS] =
 {
 	{
 		"[:alpha:]o[\\:][!\\!]ol",
@@ -1157,14 +1157,14 @@ int	 	test_fnmatch(void)
 	char	**name_string;
 
 	ret = 0;
-	while (tests[++i][0])
+	while (fnmatch_tests[++i][0])
 	{
-		pattern = tests[i][0];
+		pattern = fnmatch_tests[i][0];
 		printf("pattern '%s':\n", pattern);
-		name_string = tests[i];
+		name_string = fnmatch_tests[i];
 		while (*++name_string)
 			ret += exec_fnmatch_test(pattern, *name_string);
-		if (tests[i + 1][0])
+		if (fnmatch_tests[i + 1][0])
 			puts("");
 	}
 	return (ret);

@@ -57,7 +57,8 @@ static const char	*get_cur_exp(const char *start, const char *end,
 	while ((*exp)[length] && ((*exp)[length] != ',' || skip > 0))
 	{
 		if ((*exp)[length] == '{' && skip != 1)
-			length += go_to_closing_curl(*exp, gl) - *exp;
+			length += go_to_closing_curl(*exp + length, gl)
+				- (*exp + length);
 		else
 		{
 			skip = skip == -1 ? skip :
