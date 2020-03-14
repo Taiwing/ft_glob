@@ -72,7 +72,7 @@ static int	exec_glob_test(const char *teststr)
 	int	origret;
 	int	origflags;
 
-	printf("pattern '%s':\n", teststr);
+	printf("pattern '%s':", teststr);
 	myflags = FT_GLOB_BRACE;
 	origflags = GLOB_BRACE;
 	myret = ft_glob(teststr, myflags, NULL, &mygl);
@@ -96,7 +96,7 @@ static int	exec_glob_test(const char *teststr)
 		}
 	}
 	if (!diff)
-		printf(C_GREEN"OK\n"C_RESET"\n");
+		printf(C_GREEN" OK"C_RESET"\n");
 	else
 	{
 		printf(C_RED"KO: orig = %d, mine = %d"C_RESET"\n", origret, myret);
