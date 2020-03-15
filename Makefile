@@ -2,7 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
+CFLAGS		=	-g -Wall -Wextra -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 SUB1D		=	libft
@@ -72,6 +72,7 @@ match_patterns.o: ft_glob_internal.h ft_glob.h libft.h ft_fnmatch.h
 store_match_list.o: ft_glob_internal.h ft_glob.h libft.h
 test_fnmatch.o: c_colors.h ft_fnmatch.h
 test_glob.o: ft_glob.h c_colors.h
+main.o: libft.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@

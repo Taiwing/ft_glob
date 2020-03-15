@@ -74,6 +74,8 @@ static int	exec_glob_test(const char *teststr)
 	int	origret;
 	int	origflags;
 
+	memset((void *)&mygl, 0, sizeof(t_glob));
+	memset((void *)&origgl, 0, sizeof(glob_t));
 	printf("pattern '%s':", teststr);
 	myflags = FT_GLOB_BRACE;
 	origflags = GLOB_BRACE;
