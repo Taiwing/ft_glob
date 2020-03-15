@@ -19,7 +19,7 @@ typedef struct		s_file_data
 	int		dir;
 }			t_file_data;
 
-enum e_pathtype {GL_NONE, GL_END, GL_RAWPATH, GL_WILDCARD, GL_BRACKS};
+enum e_pathtype {GL_NONE, GL_END, GL_RAWPATH, GL_WILDCARD};
 
 # define META_CHARS	"\\{?[*"
 
@@ -35,6 +35,27 @@ t_file_data		*init_file(t_file_data *dest, const char *path,
 				const char *name, t_glob_internal *gl);
 t_list			*add_file_lst(const char **file, int add_slash,
 				t_glob_internal *gl);
+
+/*
+** Build patterns
+*/
+
+t_list			*build_patterns(const char *pattern, t_glob_internal *gl);
+void			expand_pattern_list(t_list **pattern_list,
+				t_glob_internal *gl);
+
+/*
+** Build brace patterns
+*/
+
+const char		*go_to_closing_curl(const char *pattern,	
+				t_glob_internal *gl);
+const char		*get_brace_expression(t_glob_internal *gl,
+				const char *pattern, const char **start,
+				const char **end);
+t_list			*build_brace_patterns(const char *start, const char *end,
+				const char *exp, t_glob_internal *gl);
+
 /*
 ** Match
 */
@@ -50,26 +71,6 @@ t_list			*match_next_pattern(t_glob_internal *gl,
 int			store_match_list(t_glob *pglob, t_glob_internal *gl,
 				t_list *match);
 int			void_strcmp(void *s1, void *s2);
-
-/*
-** Match curls
-*/
-
-t_list			*match_curls(const char *path, const char *pattern,
-				t_glob_internal *gl);
-
-/*
-** Match curls utils
-*/
-
-const char		*go_to_closing_curl(const char *pattern,	
-				t_glob_internal *gl);
-const char		*get_curl_expression(t_glob_internal *gl,
-				const char *pattern, const char **start,
-				const char **end);
-const char		**build_curl_patterns(const char *start,
-				const char *end, const char *exp,
-				t_glob_internal *gl);
 
 /*
 ** Internal functions

@@ -27,11 +27,12 @@ FT_FNMATCHC		=	ft_fnmatch.c\
 					char_class_functions_3.c\
 					char_class_functions_1.c\
 
-FT_GLOBC		=	match_curls.c\
-					slash_path.c\
+FT_GLOBC		=	slash_path.c\
 					ft_glob.c\
 					file_utils.c\
-					match_curls_utils.c\
+					ft_glob_internal.c\
+					build_brace_patterns.c\
+					build_patterns.c\
 					match_patterns.c\
 					store_match_list.c\
 
@@ -61,15 +62,16 @@ ft_fnmatch.o: ft_fnmatch.h ft_fnmatch_internal.h
 g_char_classes.o: libft.h g_char_classes.h
 match_brack.o: libft.h ft_fnmatch.h g_char_classes.h ft_fnmatch_internal.h
 match.o: libft.h ft_fnmatch.h ft_fnmatch_internal.h
-match_curls.o: ft_glob_internal.h ft_glob.h libft.h
 slash_path.o: ft_glob_internal.h ft_glob.h libft.h
 ft_glob.o: ft_glob_internal.h ft_glob.h libft.h ft_fnmatch.h
 file_utils.o: ft_glob_internal.h ft_glob.h libft.h
-match_curls_utils.o: ft_glob_internal.h ft_glob.h libft.h
+ft_glob_internal.o: ft_glob_internal.h ft_glob.h libft.h
+build_brace_patterns.o: ft_glob_internal.h ft_glob.h libft.h
+build_patterns.o: ft_glob_internal.h ft_glob.h libft.h
 match_patterns.o: ft_glob_internal.h ft_glob.h libft.h ft_fnmatch.h
 store_match_list.o: ft_glob_internal.h ft_glob.h libft.h
 test_fnmatch.o: c_colors.h ft_fnmatch.h
-test_glob.o: ft_glob.h
+test_glob.o: ft_glob.h c_colors.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@

@@ -27,7 +27,7 @@ const char		*go_to_closing_curl(const char *pattern,
 	return (*ptr ? ptr : pattern);
 }
 
-const char		*get_curl_expression(t_glob_internal *gl, const char *pattern,
+const char		*get_brace_expression(t_glob_internal *gl, const char *pattern,
 				const char **start, const char **end)
 {
 	int	skip;
@@ -40,6 +40,8 @@ const char		*get_curl_expression(t_glob_internal *gl, const char *pattern,
 			skip = !skip && *pattern == '\\';
 		++pattern;
 	}
+	if (!*pattern)
+		return (NULL);
 	*start = pattern;
 	return ((const char *)check_mem(gl, ft_strndup(
 		*start + 1, *end - *start - 1)));
@@ -74,30 +76,33 @@ static const char	*get_cur_exp(const char *start, const char *end,
 	return (cur_exp);
 }
 
-const char		**build_curl_patterns(const char *start, const char *end,
+t_list			*build_brace_patterns(const char *start, const char *end,
 				const char *exp, t_glob_internal *gl)
 {
 	static int	size = 0;
-	const char	**tb;
+	t_list		*next;
+	t_list		*cur;
 	const char	*p;
 
 	p = NULL;
-	tb = NULL;
+	cur = NULL;
 	size = size == -1 ? 1 : size + 1;
 	if (*exp || size == 1)
 	{
 		exp = size > 1 && *exp == ',' ? exp + 1 : exp;
-		if (!(p = get_cur_exp(start, end, &exp, gl)))
-			size = -1;
+		if ((p = get_cur_exp(start, end, &exp, gl)) && (cur =
+			(t_list *)check_mem(gl, (void *)ft_lstnew(NULL, 0))))
+			cur->content = (void *)p;
+		size = cur ? size : -1;
 	}
-	if (size != -1 && !(tb = p ? build_curl_patterns(start, end, exp,
-		gl) : (const char **)check_mem(gl, ft_secmalloc(
-		size * sizeof(char *)))))
-		size = -1;
-	if (size == -1 && p)
+	next = size != -1 && cur ? build_brace_patterns(start, end, exp, gl)
+		: NULL;
+	if (size == -1 && cur)
+		ft_lstdel(&cur, del_match);
+	else if (size == -1 && p)
 		ft_memdel((void **)&p);
-	else if (size != -1)
-		tb[--size] = p;
-	return (tb);
+	ft_lstadd(&next, cur);
+	size = size > 0 ? size - 1 : size;
+	return (next);
 }
 

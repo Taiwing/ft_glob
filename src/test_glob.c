@@ -8,6 +8,7 @@ char		*glob_tests[] =
 {
 	"{}*",
 	"{,}*",
+	"{,,,,}*",
 	"{\\{,\\,,}*",
 	"{{{}}*",
 	"*/{*}.c",
@@ -23,6 +24,7 @@ char		*glob_tests[] =
 	"*/*.c[!l]*",
 	"*/{*}.c[!l]*",
 	"*/{*}.c{[!l]*,l*/{*}.c}",
+	"*/{*,*/*}[!hoc]",
 	NULL
 };
 
@@ -99,7 +101,7 @@ static int	exec_glob_test(const char *teststr)
 		printf(C_GREEN" OK"C_RESET"\n");
 	else
 	{
-		printf(C_RED"KO: orig = %d, mine = %d"C_RESET"\n", origret, myret);
+		printf(C_RED" KO: orig = %d, mine = %d"C_RESET"\n", origret, myret);
 		print_ft_glob(myret, &mygl);
 		print_glob(origret, &origgl);
 		puts("");

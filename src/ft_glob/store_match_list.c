@@ -37,8 +37,6 @@ int		store_match_list(t_glob *pglob, t_glob_internal *gl,
 	size_t	new_pathv_size;
 
 	new_pathv_size = (size_t)ft_lst_size(match);
-//	if (!(gl->flags & FT_GLOB_NOSORT))
-//		ft_lst_quicksort(match, new_pathv_size, void_strcmp);
 	if (gl->flags & FT_GLOB_DOOFFS)
 		new_pathv_size += pglob->gl_offs;
 	if (gl->flags & FT_GLOB_APPEND)
