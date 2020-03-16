@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+cleanup() {
+    chmod 777 $testdir/noread
+    rm -fr $testdir
+}
+
+testdir="globtest-dir"
+cleanup
+mkdir $testdir
+
+#trap cleanup 0 HUP INT QUIT TERM
+
+echo 1 > $testdir/file1
+echo 2 > $testdir/file2
+echo 3 > $testdir/-file3
+echo 4 > $testdir/~file4
+echo 5 > $testdir/.file5
+echo 6 > $testdir/'*file6'
+echo 7 > $testdir/'{file7,}'
+echo 8 > $testdir/'\{file8\}'
+echo 9 > $testdir/'\{file9\,file9b\}'
+echo 9 > $testdir/'\file9b\' #'
+echo a > $testdir/'filea,'
+echo a > $testdir/'fileb}c'
+mkdir $testdir/dir1
+mkdir $testdir/dir2
+test -d $testdir/noread || mkdir $testdir/noread
+chmod a-r $testdir/noread
+echo 1_1 > $testdir/dir1/file1_1
+echo 1_2 > $testdir/dir1/file1_2
+ln -fs dir1 $testdir/link1
+mkdir $testdir/'dir3*'
+echo 1 > $testdir/'dir3*'/file1
+mkdir $testdir/'dir4[a'
+echo 2 > $testdir/'dir4[a'/file1
+echo 3 > $testdir/'dir4[a'/file2
+mkdir $testdir/'dir5[ab]'
+echo 4 > $testdir/'dir5[ab]'/file1
+echo 5 > $testdir/'dir5[ab]'/file2
+mkdir $testdir/dir6
+echo 6 > $testdir/dir6/'file1[a'
+echo 7 > $testdir/dir6/'file1[ab]'
