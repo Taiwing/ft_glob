@@ -13,21 +13,18 @@ static int	set_fnmflags(int flags)
 	return (fnmflags);
 }
 
-static t_list	*exec_patterns(const char *pattern, t_list **pattern_list,
-			t_glob_internal *gl)
+static t_list	*exec_patterns(t_list **pattern_list, t_glob_internal *gl)
 {
 	const char	*path;
 	t_list		*ptr;
 	t_list		*next;
 	t_list		*match;
 
-	path = NULL;
 	match = NULL;
 	ptr = *pattern_list;
-	if (pattern[0] == '/')
-		path = (const char *)check_mem(gl, (void *)ft_strdup("/"));
 	while (!gl->ret && ptr)
 	{
+		path = ((char *)ptr->content)[0] == '/' ? "/" : NULL;
 		next = ft_glob_internal(gl, ptr->content, path);
 		if (!gl->ret && next && !(gl->flags & FT_GLOB_NOSORT))
 			ft_lst_quicksort(next, ft_lst_size(next), void_strcmp);
@@ -37,7 +34,6 @@ static t_list	*exec_patterns(const char *pattern, t_list **pattern_list,
 	if (gl->ret)
 		ft_lstdel(&match, del_match);
 	ft_lstdel(pattern_list, del_match);
-	ft_memdel((void **)&path);
 	return (match);
 }
 
@@ -71,7 +67,7 @@ int		ft_glob(const char *pattern, int flags,
 	match = NULL;
 	pattern_list = build_patterns(pattern, &gl);
 	if (!gl.ret)
-		match = exec_patterns(pattern, &pattern_list, &gl);
+		match = exec_patterns(&pattern_list, &gl);
 	if (!gl.ret && !match)
 	{
 		if (flags & FT_GLOB_NOCHECK)
