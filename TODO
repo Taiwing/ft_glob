@@ -1,2 +1,1 @@
 - Completely handle case-insensitive pattern matching
-- remove ".." match on exclusive matches like "*.[!c]"
