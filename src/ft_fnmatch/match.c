@@ -39,7 +39,7 @@ int		match_star(const char **pattern, const char **string,
 	while ((*pattern)[1] == '*')
 		++(*pattern);
 	if (explicit_match(**string, flags))
-		return (*++(*pattern) && match_reg(pattern, string));
+		return (**string != '.' && *++(*pattern) && match_reg(pattern, string));
 	match = ft_fnmatch_internal(*pattern + 1, *string, *flags);
 	if (match > 0 && **string)
 		match = ft_fnmatch_internal(*pattern, *string + 1, *flags);

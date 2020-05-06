@@ -1129,6 +1129,9 @@ char	*fnmatch_tests[][MAX_NAME_STRINGS] =
 	{"da*da*da*","daaadabadmanda",NULL},
 	{"*?","xx",NULL},
 	{"abc[!d]","abcd","abc",NULL},
+	{".*", ".", "..",NULL},
+	{"*.", ".", "..",NULL},
+	{"*.*", ".", "..",NULL},
 	{NULL}
 };
 
