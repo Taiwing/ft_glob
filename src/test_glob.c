@@ -90,6 +90,7 @@ char		*glob_tests[] =
 	"../*/..",
 	"//////",
 	"*/*.[!c]",
+	"globtest-dir/dead*",
 	NULL
 };
 

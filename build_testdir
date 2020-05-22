@@ -44,3 +44,4 @@ echo 7 > $testdir/dir6/'file1[ab]'
 echo 8 > $testdir/"\"'"
 echo 9 > $testdir/"'"
 echo 10 > $testdir/"\""
+ln -s non_existing_file $testdir/deadlink
