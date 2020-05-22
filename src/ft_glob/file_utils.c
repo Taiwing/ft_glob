@@ -29,7 +29,7 @@ int		is_dir(const char *pathname, t_glob_internal *gl)
 	struct stat	statbuf;
 	
 	ft_bzero((void *)&statbuf, sizeof(struct stat));
-	if (stat(pathname, &statbuf) == -1)
+	if (stat(pathname, &statbuf) == -1 && lstat(pathname, &statbuf) == -1)
 	{
 		set_read_error(gl, pathname, errno);
 		return (-1);
